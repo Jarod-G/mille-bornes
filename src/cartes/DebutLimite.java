@@ -1,8 +1,8 @@
 package cartes;
 
-public abstract class Limite extends Carte {
+public class DebutLimite extends Limite {
 
-	public Limite(int n) {
+	public DebutLimite(int n) {
 		super(n);
 		// TODO Auto-generated constructor stub
 	}
