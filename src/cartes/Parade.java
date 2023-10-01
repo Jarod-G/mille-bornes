@@ -4,7 +4,6 @@ public class Parade extends Bataille {
 
 	public Parade(int n, Type type) {
 		super(n, type);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -20,7 +19,7 @@ public class Parade extends Bataille {
 			return "RoueDeSecours";
 		}
 		case ACCIDENT:{
-			return "Réparations";
+			return "RÃ©parations";
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + this.getType());

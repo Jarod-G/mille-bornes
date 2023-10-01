@@ -1,6 +1,6 @@
 package cartes;
 
-public abstract class Carte {
+public class Carte {
 	private int nombre;
 
 	public Carte(int n) {
