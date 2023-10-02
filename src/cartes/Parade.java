@@ -19,7 +19,7 @@ public class Parade extends Bataille {
 			return "RoueDeSecours";
 		}
 		case ACCIDENT:{
-			return "RÃ©parations";
+			return "Réparations";
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + this.getType());

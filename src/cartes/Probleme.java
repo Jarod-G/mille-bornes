@@ -12,5 +12,13 @@ public class Probleme extends Carte {
 	public Type getType() {
 		return type;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		 if(obj instanceof Probleme probleme){
+			 Probleme carte = probleme;
+			 return this.type.equals(carte.getType());
+		 }
+		 return false;
+	}
 }

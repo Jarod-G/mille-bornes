@@ -10,5 +10,5 @@ public class Carte {
 	public int getNombre() {
 		return nombre;
 	}
-
+	
 }

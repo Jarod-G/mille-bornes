@@ -1,6 +1,8 @@
 package tests;
 
+
 import java.util.Iterator;
+
 
 import cartes.Attaque;
 import cartes.Botte;
@@ -31,9 +33,6 @@ public class TestSabot {
             //EXCEPTION levé : ConcurrentModificationException
         	sabot.ajouterFamilleCarte(asDuVolant);
             cartePiochee = sabot.piocher();
-
-            
-            
         }
     }
 	
