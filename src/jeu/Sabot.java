@@ -8,12 +8,13 @@ import cartes.Carte;
 
 public class Sabot<E> implements Iterable<E> {
 	private int nbCartes = 0;
-	private Carte [] cartes_sabot;
+	private Carte [] cartesSabot;
 	private int nbOperations = 0;
+	private boolean nextEffectue = false;
 	
 	
 	public Sabot(int capacite) {
-		this.cartes_sabot = new Carte[capacite];
+		this.cartesSabot = new Carte[capacite];
 	}
 	
 	public boolean estVide() {
@@ -21,7 +22,7 @@ public class Sabot<E> implements Iterable<E> {
 	}
 	
 	private void ajouterCarte(Carte carte) {
-		cartes_sabot[nbCartes] = carte;
+		cartesSabot[nbCartes] = carte;
 		nbCartes = nbCartes + 1;
 		nbOperations++;
 	}
@@ -46,8 +47,7 @@ public class Sabot<E> implements Iterable<E> {
 			iter.remove();
 			return carte;
 		}
-		throw new NoSuchElementException("Le sabot est vide.");
-		
+		return null;
 	}
 	
 	@Override
@@ -70,13 +70,15 @@ public class Sabot<E> implements Iterable<E> {
                 throw new ConcurrentModificationException();
             }
 
-            if (indiceIterator == 0 || indiceIterator > nbCartes) {
+            if (nbCartes < 1 || !nextEffectue) {
                 throw new IllegalStateException("Impossible de supprimer l'élément actuel.");
             }
             
             for (int i = indiceIterator - 1; i < nbCartes - 1; i++) {
-                cartes_sabot[i] = cartes_sabot[i + 1];
+                cartesSabot[i] = cartesSabot[i + 1];
             }
+            
+            nextEffectue = false;
             nbOperationsRef++;
             nbOperations++;
             nbCartes--;
@@ -88,8 +90,9 @@ public class Sabot<E> implements Iterable<E> {
 			verificationConcurrence();
 			if(hasNext()) {
 				@SuppressWarnings("unchecked")
-				E element = (E) cartes_sabot[indiceIterator];
+				E element = (E) cartesSabot[indiceIterator];
 				indiceIterator++;
+				nextEffectue = true;
 				return element;
 				
 			}else {
