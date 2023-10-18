@@ -6,5 +6,10 @@ public class FinLimite extends Limite {
 		super(n);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public String toString() {
+		return "Fin de limite de vitesse";
+	}
 
 }

@@ -6,5 +6,6 @@ public class Limite extends Carte {
 		super(n);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	
 }
