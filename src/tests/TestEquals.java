@@ -1,13 +1,9 @@
 package tests;
 
-import java.util.Iterator;
-
 import cartes.Attaque;
 import cartes.Botte;
 import cartes.Carte;
-import cartes.Parade;
 import cartes.Probleme;
-import jeu.Sabot;
 
 public class TestEquals {
 	

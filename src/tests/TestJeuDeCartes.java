@@ -30,7 +30,7 @@ public class TestJeuDeCartes {
 		
 		
 		/*TODO
-		listeCartes = Utils.rassember(listeCartes);
+		listeCartes = Utils.rassembler(listeCartes);
 		System.out.println(listeCartes);
 		System.out.println("liste rassemblée sans erreur ? " + Utils.verifierRassemblement(listeCartes));
 		*/
