@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cartes.Carte;
@@ -15,25 +16,26 @@ public class TestJeuDeCartes {
 		System.out.println("Compte des cartes juste ? " + jeu.checkCount());
 		
 		// UTILS
-		System.out.println(Utils.extraire(jeu.getListeCartes()).toString()); // Carte aléatoirement
+		System.out.println(Utils.extraire(jeu.getListeCartes()).toString()); // Carte alÃ©atoirement
 		jeu.afficherCartes();
 		
 		//TEST
 		JeuDeCartes jeu2 = new JeuDeCartes();
 		List<Carte> listeCarteNonMelangee = jeu2.getListeCartes();
-		List<Carte> listeCartes = new ArrayList<>(listeCarteNonMelangee);
-		System.out.println(listeCartes);
+		List<Carte> listeCartes = jeu2.getListeCartes();
+		System.out.println("INIT LISTE : " + listeCartes);
 		listeCartes = Utils.melanger(listeCartes);
-		System.out.println(listeCartes);
+		System.out.println("MELG LISTE : " +listeCartes);
 		jeu2.afficherCartes();
-		System.out.println("liste mélangée sans erreur ? " + Utils.verifierMelange(listeCarteNonMelangee, listeCartes));
+		System.out.println("liste mï¿½langï¿½e sans erreur ? " + Utils.verifierMelange(listeCarteNonMelangee, listeCartes));
 		
-		
-		/*TODO
+		System.out.println(listeCartes);
 		listeCartes = Utils.rassembler(listeCartes);
 		System.out.println(listeCartes);
-		System.out.println("liste rassemblée sans erreur ? " + Utils.verifierRassemblement(listeCartes));
-		*/
+		System.out.println("liste rassemblï¿½e sans erreur ? " + Utils.verifierRassemblement(listeCartes)); // Doit Ãªtre true
+		System.out.println("liste rassemblï¿½e sans erreur ? " + Utils.verifierRassemblement(Arrays.asList(1,1,2,1,3))); // Doit Ãªtre false
+		
+		jeu2.testerOccurrences(listeCartes);
 	}
 
 }

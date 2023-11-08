@@ -5,13 +5,20 @@ import java.util.*;
 public class Utils {
     
 
+	public static <T> T extraire(List<T> liste) {
+	    if (liste.isEmpty()) {
+	        throw new IllegalArgumentException("Liste vide.");
+	    }
 
-	// rassembler pour chaque elem compter le nb d'occ et ajouter autant de copie dans la lst rassembler.
-	
-	// tant que e = precedent quand != precedent je parcours fin de liste puis je reprends (i lfaut 2 boucles)
-    
-    
-	public static <T> T extraire (List<T> liste) {
+	    Random rand = new Random();
+	    int randomIndex = rand.nextInt(liste.size());
+
+	    T element = liste.get(randomIndex);
+	    liste.remove(randomIndex);
+	    return element;
+	}
+
+	public static <T> T extraireListeIte (List<T> liste) {
         Random rand = new Random();
         ListIterator<T> iterator = liste.listIterator();
         int randomIndex = rand.nextInt(liste.size());
@@ -26,6 +33,7 @@ public class Utils {
         
     }
 	
+	
 	public static <T> List<T> melanger (List<T> liste) {
 		List<T> listeMelange = new ArrayList<>();
 		while(!liste.isEmpty()) {		
@@ -36,7 +44,7 @@ public class Utils {
 	
 	public static <T> boolean verifierMelange(List<T> liste1, List<T> liste2) {
         if (liste1.size() != liste2.size()) {
-            return false; // Les listes n'ont pas la même taille
+            return false; // Les listes n'ont pas la mï¿½me taille
         }
 
         for (T element : liste1) {
@@ -44,11 +52,47 @@ public class Utils {
             int occurencesListe2 = Collections.frequency(liste2, element);
 
             if (occurencesListe1 != occurencesListe2) {
-                return false; // Pas le même nombre d'occurrences.
+                return false; // Pas le mï¿½me nombre d'occurrences.
             }
         }
 
         return true;
     }
+    
+    
+    public static <T> List<T> rassembler(List<T> liste) {
+        List<T> listeRassemblee = new ArrayList<>();
+        for (T current : liste) {
+        	if(!listeRassemblee.contains(current)) {
+                int occ = Collections.frequency(liste, current);
 
+                // Ajouter les copies de l'Ã©lÃ©ment actuel
+                for (int k = 0; k < occ; k++) {
+                    listeRassemblee.add(current);
+                }
+        	}
+        }
+        return listeRassemblee;
+    }
+    
+    public static <T> boolean verifierRassemblement(List<T> liste) {
+        ListIterator<T> it1 = liste.listIterator();
+        int size = liste.size();
+        ListIterator<T> it2 = liste.listIterator(size);
+        if (!it1.hasNext()) {
+            return true;
+        }
+        while (it1.hasNext()) {
+            T element1 = it1.next();
+            while(it2.hasPrevious() && it2 != it1) {
+                T element2 = it2.previous();
+                if (element2.equals(element1) && it2.hasPrevious() && !it2.previous().equals(element1)) {
+                    return false;
+                }
+           }
+        }
+        return true;
+    }
+    
+    
 }

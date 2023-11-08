@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cartes.Probleme.Type;
+import utils.Utils;
 
 
 public class JeuDeCartes {
@@ -24,7 +25,13 @@ public class JeuDeCartes {
 		};
 		
 		listeCartes = new ArrayList<>();
-		Collections.addAll(listeCartes, typesDeCartes);
+		for(Carte carte : typesDeCartes) {
+			for(int i = 0; i < carte.getNombre(); i++) {
+				listeCartes.add(carte);
+			}
+		}
+		
+		//listeCartes = Utils.melanger(listeCartes);
 	
 	}
 	
@@ -39,61 +46,70 @@ public class JeuDeCartes {
 		System.out.println("Voici les cartes comprises dans le jeu : \n");
 		for (Iterator<Carte> iterator = listeCartes.iterator(); iterator.hasNext();) {
 			Carte carte = (Carte) iterator.next();
-			System.out.println("x"+carte.getNombre() + " " + carte.toString());
-			i += carte.getNombre();
+			System.out.println(carte.toString());
+			i += 1;
 		}
 		System.out.println("\nTOTAL DE CARTES : " + i);
 	}
 	
 	
 	public boolean checkCount() {
-	    for (Carte carte : listeCartes) {
-	        int expectedCount = 0;
+        int[] counts = new int[typesDeCartes.length];
 
-	        if (carte instanceof Borne) {
-	            Borne borne = (Borne) carte;
-	            switch (borne.getKm()) {
-	                case 25,50,75:
-	                    expectedCount = 10; break;
-	                case 100:
-	                    expectedCount = 12; break;
-	                case 200:
-	                    expectedCount = 4; break;
-	            }
-	        } 
-	        else if (carte instanceof Attaque) {
-	            Attaque attaque = (Attaque) carte;
-	            switch (attaque.getType()) {
-	                case FEU:
-	                    expectedCount = 5; break;
-	                case ESSENCE,CREVAISON,ACCIDENT:
-	                    expectedCount = 3; break;
-	            }
-	        } 
-	        else if (carte instanceof Parade) {
-	            Parade parade = (Parade) carte;
-	            switch (parade.getType()) {
-	                case FEU:
-	                    expectedCount = 14; break;
-	                case ESSENCE,CREVAISON,ACCIDENT:
-	                    expectedCount = 6; break;	        
-	            }
-	        } else if (carte instanceof Botte) {
-	            expectedCount = 1;
-	        } else if (carte instanceof DebutLimite) {
-	            expectedCount = 4;
-	        } else if (carte instanceof FinLimite) {
-	            expectedCount = 6;
-	        }
+        for (Carte carte : listeCartes) {
+            int index = -1;
 
-	        if (carte.getNombre() != expectedCount) {
-	            return false;
-	        }
-	    }
+            if (carte instanceof Borne) {
+                Borne borne = (Borne) carte;
+                switch (borne.getKm()) {
+                case 25: index = 0; break;
+                case 50: index = 1; break;
+                case 75: index = 2; break;
+                case 100: index = 3; break;
+                case 200: index = 4; break;
+            }
+            } else if (carte instanceof DebutLimite) {
+                index = 5; // DebutLimite
+            } else if (carte instanceof FinLimite) {
+                index = 6; // FinLimite
+            } else if (carte instanceof Attaque) {
+                Attaque attaque = (Attaque) carte;
+                index = 7 + attaque.getType().ordinal(); // Attaque
+            } else if (carte instanceof Parade) {
+                Parade parade = (Parade) carte;
+                index = 11 + parade.getType().ordinal(); // Parade
+            } else if (carte instanceof Botte) {
+                Botte botte = (Botte) carte;
+                index = 15 + botte.getType().ordinal(); // Botte
+            }
 
-	    return true;
-	}
+            if (index >= 0) {
+                counts[index]++;
+            }
+        }
 
+        for (int i = 0; i < typesDeCartes.length; i++) {
+            if (counts[i] != typesDeCartes[i].getNombre()) {
+                System.out.println("Erreur : Le nombre d'exemplaires de type " + i + " est incorrect.");
+                return false;
+            }
+        }
+        return true;
+    }
+	
+	
+	public void testerOccurrences(List<Carte> listeCartes) {
+        for (Carte carte : listeCartes) {
+            int occurrencesInitiales = Collections.frequency(listeCartes, carte);
+            int occurrencesMelangees = Collections.frequency(listeCartes, carte);
+            if (occurrencesInitiales != occurrencesMelangees) {
+                System.out.println("Erreur pour la carte : " + carte);
+                System.out.println("Occurrences initiales : " + occurrencesInitiales);
+                System.out.println("Occurrences mélangées : " + occurrencesMelangees);
+            }
+        }
+        System.out.println("Vérification des occurrences terminée. Nombre d'occurences respectés !");
+    }
 
     
 }
