@@ -2,8 +2,14 @@ package jeu;
 
 import java.util.List;
 import java.util.Set;
+
 import cartes.Carte;
+import cartes.FinLimite;
+import cartes.Parade;
+import cartes.Probleme.Type;
+import cartes.Attaque;
 import cartes.Borne;
+import cartes.Botte;
 
 public class Joueur {
 	private String nomJoueur;
@@ -69,14 +75,70 @@ public class Joueur {
 		return km;
 	}
 	
-	public int getLimite() {
-		int km = 0;
-		for(Carte carte : this.getBornes()) {
-			Borne carteBorne = (Borne)carte;
-			km += carteBorne.getKm();
-		}
-		return km;
+	private boolean isVhPrioritaire() {
+	    // Vérifier si le joueur a une botte de type FEU
+	    for (Carte botte : this.getBottes()) {
+	    	Botte botte_c = (Botte)botte;
+	        if (botte_c.getType().equals(Type.FEU)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
+	
+	public int getLimite() {
+		List<Carte> limites_l = this.getLimites();
+		if(limites_l.isEmpty()) {
+			return 200;
+		}
+		else {
+			Carte sommetPile = limites_l.get(limites_l.size() - 1);
+			if((sommetPile instanceof FinLimite) || isVhPrioritaire()) {
+				return 200;
+			}else {
+				return 50;
+			}
+		}
+	}
+	
+	private boolean aBotteDeTypeAutreQueFeu(Type type) {
+        // Vérifier si le joueur a une botte pour le type spécifié
+        for (Carte botte : this.getBottes()) {
+            Botte botte_c = (Botte) botte;
+            if (botte_c.getType().equals(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	public boolean estBloque() {
+		List<Carte> batailles_l = this.getBatailles();
+        if (batailles_l.isEmpty() && isVhPrioritaire()) {
+            // La pile de bataille est vide et le joueur est prioritaire
+            return false;
+        }if(!batailles_l.isEmpty()) {
+        	Carte sommetPile = batailles_l.get(batailles_l.size() - 1);
+        	if(sommetPile instanceof Parade parade && parade.getType() == Type.FEU) {
+        		return false;
+        	}
+        	
+        	if(sommetPile instanceof Parade && isVhPrioritaire()) {
+        		return false;
+        	}
+        	
+        	if((sommetPile instanceof Attaque attaque && attaque.getType() == Type.FEU) && isVhPrioritaire()) {
+        		return false;
+        	}
+        	
+        	if (sommetPile instanceof Attaque attaque && !attaque.getType().equals(Type.FEU) && aBotteDeTypeAutreQueFeu(attaque.getType()) && isVhPrioritaire()) {
+                // Le sommet est une attaque d'un autre type, le joueur a une botte pour ce type, et il est prioritaire
+                return false;
+            }
+        }
+        return true;
+	}
+	
 	
 	@Override
 	public String toString() {

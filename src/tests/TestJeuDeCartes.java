@@ -1,6 +1,5 @@
 package tests;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class TestJeuDeCartes {
 		List<Carte> listeCartes = jeu2.getListeCartes();
 		System.out.println("INIT LISTE : " + listeCartes);
 		listeCartes = Utils.melanger(listeCartes);
-		System.out.println("MELG LISTE : " +listeCartes);
+		System.out.println("MELG LISTE : " + listeCartes);
 		jeu2.afficherCartes();
 		System.out.println("liste m�lang�e sans erreur ? " + Utils.verifierMelange(listeCarteNonMelangee, listeCartes));
 		

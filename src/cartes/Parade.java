@@ -19,10 +19,19 @@ public class Parade extends Bataille {
 			return "RoueDeSecours";
 		}
 		case ACCIDENT:{
-			return "Réparations";
+			return "Rï¿½parations";
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + this.getType());
 		}
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Parade parade){
+			Parade otherParade = parade;
+			return this.getType().equals(otherParade.getType());
+		}
+		return false;
 	}
 }

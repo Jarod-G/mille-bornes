@@ -25,4 +25,13 @@ public class Attaque extends Bataille {
 			throw new IllegalArgumentException("Unexpected value: " + this.getType());
 		}
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Attaque attaque){
+			Attaque otherAttaque = attaque;
+			return this.getType().equals(otherAttaque.getType());
+		}
+		return false;
+	}
 }

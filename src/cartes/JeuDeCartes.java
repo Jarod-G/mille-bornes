@@ -31,7 +31,7 @@ public class JeuDeCartes {
 			}
 		}
 		
-		//listeCartes = Utils.melanger(listeCartes);
+		listeCartes = Utils.melanger(listeCartes);
 	
 	}
 	

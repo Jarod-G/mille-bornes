@@ -18,4 +18,13 @@ public class Borne extends Carte {
 	public String toString() {
 		return "Carte " + this.getKm() + "km";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		 if(obj instanceof Borne borne){
+			 Borne carte = borne;
+			 return super.equals(carte) && km == borne.getKm();
+		 }
+		 return false;
+	}
 }
